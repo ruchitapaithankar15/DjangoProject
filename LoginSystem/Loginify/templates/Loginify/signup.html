@@ -1,23 +1,26 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Login</title>
+    <title>Signup</title>
 </head>
 <body>
-    <h2>Login</h2>
+    <h2>Signup</h2>
     {% for message in messages %}
-        <p style="color: blue;">{{ message }}</p>
+        <p style="color: red;">{{ message }}</p>
     {% endfor %}
     <form method="post">
         {% csrf_token %}
+        <label>Username:</label>
+        <input type="text" name="username" required><br><br>
+
         <label>Email:</label>
         <input type="email" name="email" required><br><br>
 
         <label>Password:</label>
         <input type="password" name="password" required><br><br>
 
-        <button type="submit">Login</button>
+        <button type="submit">Signup</button>
     </form>
-    <p>Don't have an account? <a href="{% url 'signup' %}">Signup now!</a></p>
+    <p>Already have an account? <a href="{% url 'login' %}">Login here</a></p>
 </body>
 </html>
