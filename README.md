@@ -11,6 +11,22 @@ Task 2 snapshots:
 
 <img width="605" alt="Login Page" src="https://github.com/user-attachments/assets/d11e7f12-5c82-43fa-9bbf-bc109d376e72" />
 
+Task 3 snapshots:
+
+<img width="1061" alt="Pasted Graphic 5" src="https://github.com/user-attachments/assets/e97b14da-048c-4fd7-9fe6-f399069bc34c" />
+
+<img width="578" alt="Username (ruchita01" src="https://github.com/user-attachments/assets/3dfdae03-0f64-4e1e-b25b-43ac393c491c" />
+
+<img width="525" alt="Login" src="https://github.com/user-attachments/assets/e6c478e9-768c-4566-854d-3131ee246e8a" />
+
+<img width="336" alt="Login Successful!" src="https://github.com/user-attachments/assets/b00ac5eb-502a-4909-915b-790d369da81b" />
+
+
+<img width="698" alt="TERMINAL" src="https://github.com/user-attachments/assets/bab55a27-4b0e-463e-bb10-6885d1a0fdb0" />
+
+
+
+
 
 
 
