@@ -51,6 +51,23 @@ Task 5
 
 <img width="897" alt="Pasted Graphic 24" src="https://github.com/user-attachments/assets/2ff72b59-7f66-4b9b-91af-b938a63c81d4" />
 
+<img width="891" alt="Pasted Graphic 27" src="https://github.com/user-attachments/assets/c3c956ab-9c3e-4a58-ae92-0af37c6f326a" />
+
+<img width="853" alt="Pasted Graphic 28" src="https://github.com/user-attachments/assets/e9f7c52c-c17d-4159-9086-58c8df032987" />
+
+<img width="858" alt="Pasted Graphic 29" src="https://github.com/user-attachments/assets/929b537b-d5bf-4e56-b5f2-314becd3c9e0" />
+
+<img width="849" alt="Pasted Graphic 30" src="https://github.com/user-attachments/assets/3eb20170-de30-4941-ab7e-9fe21eec6ac1" />
+
+<img width="859" alt="Pasted Graphic 31" src="https://github.com/user-attachments/assets/422f62fa-2e33-4661-9264-22ba61d0e215" />
+
+
+
+
+
+
+
+
 
 
 
