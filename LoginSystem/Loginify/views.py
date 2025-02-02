@@ -1,11 +1,9 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
-from .models import UserDetails
 from django.http import HttpResponse, JsonResponse
-import json
-
 from django.views.decorators.csrf import csrf_exempt
-
+import json
+from .models import UserDetails
 
 def hello_world(request):
     return HttpResponse("Hello, world!")
@@ -13,78 +11,88 @@ def hello_world(request):
 @csrf_exempt
 def signup_view(request):
     if request.method == "POST":
-        username = request.POST["username"]
-        email = request.POST["email"]
-        password = request.POST["password"]
+        try:
+            data = json.loads(request.body)
+            username = data.get("username")
+            email = data.get("email")
+            password = data.get("password")
 
-        # Check if email already exists
-        if UserDetails.objects.filter(email=email).exists():
-            messages.error(request, "Email already registered.")
-            return redirect("signup")
+            # Create user only if email does not exist
+            user, created = UserDetails.objects.get_or_create(email=email, defaults={"username": username, "password": password})
 
-        # Create new user
-        user = UserDetails(username=username, email=email, password=password)
-        user.save()
+            if not created:
+                return JsonResponse({"error": "Email already registered"}, status=400)
 
-        messages.success(request, "Signup successful! Please log in.")
-        return redirect("login")
+            return JsonResponse({"message": "Signup successful", "username": user.username, "email": user.email}, status=201)
 
-    return render(request, "Loginify/signup.html")
+        except Exception as e:
+            return JsonResponse({"error": str(e)}, status=500)
 
+    return JsonResponse({"error": "Invalid request method"}, status=405)
 
+@csrf_exempt
 def login_view(request):
     if request.method == "POST":
-        email = request.POST["email"]
-        password = request.POST["password"]
+        try:
+            data = json.loads(request.body)
+            email = data.get("email")
+            password = data.get("password")
 
-        # Authenticate user
-        user = UserDetails.objects.filter(email=email, password=password).first()
+            user = UserDetails.objects.filter(email=email, password=password).first()
 
-        if user:
-            messages.success(request, "Login successful! Welcome, " + user.username)
-            return redirect("success")
-        else:
-            messages.error(request, "Invalid email or password.")
-            return redirect("login")
+            if user:
+                return JsonResponse({"message": f"Login successful! Welcome, {user.username}"}, status=200)
+            else:
+                return JsonResponse({"error": "Invalid email or password"}, status=401)
 
-    return render(request, "Loginify/login.html")
+        except Exception as e:
+            return JsonResponse({"error": str(e)}, status=500)
 
+    return JsonResponse({"error": "Invalid request method"}, status=405)
 
 def success_view(request):
     return render(request, "Loginify/success.html")
 
-# Get all users' details
+@csrf_exempt
 def get_all_users(request):
-    users = list(UserDetails.objects.values()) 
-    return JsonResponse({"users": users}, safe=False)
+    if request.method == "GET":
+        users = list(UserDetails.objects.values())
+        return JsonResponse({"users": users}, safe=False)
+    return JsonResponse({"error": "Invalid request method"}, status=405)
 
-# Get a single user by email
+@csrf_exempt
 def get_user_by_email(request, email):
-    user = get_object_or_404(UserDetails, email=email)
-    return JsonResponse({
-        "username": user.username,
-        "email": user.email,
-        "password": user.password 
-    })
+    if request.method == "GET":
+        user = get_object_or_404(UserDetails, email=email)
+        return JsonResponse({"username": user.username, "email": user.email, "password": user.password})
+    return JsonResponse({"error": "Invalid request method"}, status=405)
 
-
+@csrf_exempt
 def update_user(request, email):
-    if request.method == "POST":
+    if request.method == "PUT":
         try:
-            data = json.loads(request.body) 
             user = get_object_or_404(UserDetails, email=email)
+            data = json.loads(request.body)
+
             user.username = data.get("username", user.username)
             user.password = data.get("password", user.password)
             user.save()
-            return JsonResponse({"message": "User updated successfully"})
+
+            return JsonResponse({"message": "User updated successfully", "updated_user": {"username": user.username, "email": user.email}}, status=200)
+
         except Exception as e:
             return JsonResponse({"error": str(e)}, status=400)
+
     return JsonResponse({"error": "Invalid request method"}, status=405)
 
-
+@csrf_exempt
 def delete_user(request, email):
     if request.method == "DELETE":
-        user = get_object_or_404(UserDetails, email=email)
-        user.delete()
-        return JsonResponse({"message": "User deleted successfully"})
+        try:
+            user = get_object_or_404(UserDetails, email=email)
+            user.delete()
+            return JsonResponse({"message": "User deleted successfully"}, status=200)
+        except Exception as e:
+            return JsonResponse({"error": str(e)}, status=400)
+
     return JsonResponse({"error": "Invalid request method"}, status=405)
